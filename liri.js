@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 var Spotify = require('node-spotify-api');
+var Twitter = require('twitter');
 var request = require("request");
 
 var liriAction = process.argv[2];
@@ -8,12 +9,12 @@ var liriAction = process.argv[2];
 
 var thisInfo = process.argv.slice(3).join(" ");
 
-//console.log(liriAction + ", " + thisInfo);
+console.log(liriAction + ", " + thisInfo);
 var keys = require("./keys.js");
 var spotify = new Spotify(keys.spotify);
-//var client = new Twitter(keys.twitter);
+var client = new Twitter(keys.twitter);
 
-
+//spotify
 if (liriAction === "spotify-this-song") {
     if (thisInfo === "") {
         thisInfo = "jungleland";
@@ -32,8 +33,38 @@ if (liriAction === "spotify-this-song") {
         }
     });
 }
+//twitter
 else if (liriAction === "my-tweets") {
-//set up the new twitter, should still be logged in.  It is using the new gmail account: chayuabootcamp, maybe chayuacodecamp, I can't remember.  The twitter name is notchayeither
+    var params = { screen_name: 'notchayeither' };
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
+            for (i = 0; i < tweets.length; i++) {
+                console.log("Tweet #" + (i+1) + ": " + tweets[i].text);
+            }
+        }
+    });
+}
+//omdb
+else if (liriAction === "movie-this") {
+    if (thisInfo === "") {
+        thisInfo = "Harry and the Hendersons";
+    }
+    
+    var queryUrl = "http://www.omdbapi.com/?t=" + thisInfo + "&y=&plot=short&apikey=trilogy";
+    request(queryUrl, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            movie = JSON.parse(body);
+          console.log(movie.Title);
+          console.log("Released in " + movie.Year);
+          console.log("IMDB rating: " + movie.Ratings[0].Value);
+          console.log("Rotten Tomato rating: " + movie.Ratings[1].Value);
+          console.log("Filmed in: " + movie.Country);
+          console.log("Language: " + movie.Language);
+          console.log("Plot: " + movie.Plot);
+          console.log("Actors: " + movie.Actors);
+        }
+      });
+
 }
 
 /*
