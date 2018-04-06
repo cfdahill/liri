@@ -25,6 +25,11 @@ if (process.argv[2] === "do-what-it-says") {
         thisInfo = array[1];
         console.log(liriAction);
         console.log(thisInfo);
+        fs.appendFile("./log.txt", process.argv[2] + " led to: ", "utf8", function(ohoh, data){
+            if(ohoh) {
+                console.log(ohoh);
+            }
+        });
         goGoLiriGo(liriAction, thisInfo);
     });
 } else {
@@ -100,7 +105,9 @@ function goGoLiriGo(liriAction, thisInfo) {
 
     }
     else {
-        console.log("Not a valid command.  Try one of the following");
+        if(liriAction !== "help") {
+            console.log("Not a valid command.  Try one of the following");
+        }
         console.log("do-what-it-says  ---  do whatever action is in the random.txt file");
         console.log("movie-this [movie title]  ---  pull up information on a movie");
         console.log("my-tweets   ---   to read the first and last 20 tweets I will ever do");
