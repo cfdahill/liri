@@ -36,11 +36,18 @@ if (process.argv[2] === "do-what-it-says") {
 }
 
 function goGoLiriGo(liriAction, thisInfo) {
+    //write to the file log.txt
+    fs.appendFile("./log.txt", liriAction + ", " + thisInfo + "\n", "utf8", function(ohoh, data){
+        if(ohoh) {
+            console.log(ohoh);
+        }
+    });
+
+    //spotify
     if (liriAction === "spotify-this-song") {
         if (thisInfo === "") {
             thisInfo = "jungleland";
         }
-//spotify
         spotify.search({ type: 'track', query: thisInfo, limit: 1 }, function (oops, data) {
             if (oops) {
                 return console.log("That was a bad note: " + oops);
@@ -107,6 +114,6 @@ Pseudocode:
 Set up all the basic variable/calls needed for each of the liri actions
 Create a series of if /else-ifs that will check that process.argv[3] is "twitter" then it will pull up the twitter stuff and so on.
 Do same for all the other parts of liri.
-See if it can be simplified by making everything into one object that then pushes different variables through a function.  Why?  Because simplified code is pretty, damn it!
+See if it can be simplified by making everything into one object that then pushes different variables through a function.  Why?  Because simplified code is pretty, damn it!  Based on what I wrote, an object would only make it slightly cleaner/simplified.  When considering the time needed to simplify, it seems keeping it a little ugly is better.  After all, everything in life is a little ugly, why should Liri be any different?
 Once this is successful, see if I can get each part to also print a line into a log of what liri is doing.  Or better yet, get Liri to do this before each part and then I only need to do it once.  Ahh, simplified.
 */
