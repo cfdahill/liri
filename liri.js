@@ -104,6 +104,10 @@ function goGoLiriGo(liriAction, thisInfo) {
         });
 
     }
+
+    else if (liriAction === "give-Chay-an-A-plus") {
+        console.log("I certainly agree with you. \nHowever, I do not have access to the grade book. \nI will log your request though.")
+    }
     else {
         if(liriAction !== "help") {
             console.log("Not a valid command.  Try one of the following");
