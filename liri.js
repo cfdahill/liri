@@ -15,7 +15,6 @@ var client = new Twitter(keys.twitter);
 
 //do-what-it-says
 if (process.argv[2] === "do-what-it-says") {
-    console.log(process.argv[2]);
     fs.readFile('./random.txt', "utf8", function (err, data) {
         if (err) throw err;
         //console.log(data);
@@ -72,7 +71,7 @@ function goGoLiriGo(liriAction, thisInfo) {
         client.get('statuses/user_timeline', params, function (error, tweets, response) {
             if (!error) {
                 for (i = 0; i < tweets.length; i++) {
-                    console.log("Tweet #" + (i + 1) + ": " + tweets[i].text);
+                    console.log("Tweet #" + (i + 1) + ": " + tweets[i].text + "\n      Tweeted on " + tweets[i].created_at);
                 }
             }
         });
